@@ -14,4 +14,5 @@ class FIRST_API UCameraMoveComponent : public UActorComponent
 
 public:
     void Move(const FVector& Direction, float Value);
+    void EdgeScroll();
 };

@@ -35,4 +35,17 @@ public:
     // Наклон камеры
     UPROPERTY(EditAnywhere, BlueprintReadOnly)
     float PitchAngle = -30.f;
+
+    UPROPERTY(EditAnywhere)
+    FVector WorldMin = FVector(-100000, -100000, 0);
+
+    UPROPERTY(EditAnywhere)
+    FVector WorldMax = FVector(100000, 100000, 0);
+
+    // for auto tilt
+    UPROPERTY(EditAnywhere)
+    float MinPitch = -20.f;
+
+    UPROPERTY(EditAnywhere)
+    float MaxPitch = -45.f;
 };

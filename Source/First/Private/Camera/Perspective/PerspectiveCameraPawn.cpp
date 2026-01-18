@@ -10,7 +10,7 @@
 
 APerspectiveCameraPawn::APerspectiveCameraPawn()
 {
-    PrimaryActorTick.bCanEverTick = false;
+    PrimaryActorTick.bCanEverTick = true;
 
     Root = CreateDefaultSubobject<USceneComponent>("Root");
     RootComponent = Root;
@@ -41,4 +41,12 @@ void APerspectiveCameraPawn::BeginPlay()
     SpringArm->SetRelativeRotation(FRotator(Settings->PitchAngle, 0.f, 0.f));
 }
 
+void APerspectiveCameraPawn::Tick(float DeltaTime)
+{
+    Super::Tick(DeltaTime);
 
+    if (MoveComponent)
+    {
+        MoveComponent->EdgeScroll();
+    }
+}

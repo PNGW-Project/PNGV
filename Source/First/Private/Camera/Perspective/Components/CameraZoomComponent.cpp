@@ -39,6 +39,22 @@ void UCameraZoomComponent::TickComponent(
         Pawn->Settings->MaxZoom
     );
 
+    float Alpha = FMath::GetMappedRangeValueClamped(
+        FVector2D(Pawn->Settings->MinZoom, Pawn->Settings->MaxZoom),
+        FVector2D(1.f, 0.f),
+        ArmLength
+    );
+
+    float Pitch = FMath::Lerp(
+        Pawn->Settings->MinPitch,
+        Pawn->Settings->MaxPitch,
+        Alpha
+    );
+
+    Pawn->SpringArm->SetRelativeRotation(
+        FRotator(Pitch, 0.f, 0.f)
+    );
+
     // демпфирование
     ZoomVelocity = FMath::FInterpTo(
         ZoomVelocity, 0.f, DeltaTime, 5.f
