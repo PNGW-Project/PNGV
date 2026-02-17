@@ -1,0 +1,17 @@
+name: Validate Branch Name
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch name
+        run: |
+          BRANCH_NAME="${{ github.head_ref }}"
+          if [[ ! $BRANCH_NAME =~ ^(feature|bugfix|hotfix)\/PNGW-[0-9]+-.+ ]]; then
+            echo "Branch name must be like: feature/PNGW-123-description"
+            exit 1
+          fi
