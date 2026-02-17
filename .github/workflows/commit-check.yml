@@ -1,0 +1,24 @@
+name: Validate Commit Message
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Validate commits
+        run: |
+          git fetch origin main
+          COMMITS=$(git log origin/main..HEAD --pretty=format:"%s")
+
+          for commit in "$COMMITS"
+          do
+            if [[ ! $commit =~ PNGW-[0-9]+ ]]; then
+              echo "Commit message must contain PNGW-123"
+              exit 1
+            fi
+          done
