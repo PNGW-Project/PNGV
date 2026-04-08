@@ -14,10 +14,12 @@ jobs:
         run: |
           git fetch origin main
           COMMITS=$(git log origin/main..HEAD --pretty=format:"%s")
-
-          for commit in "$COMMITS"
+      
+          echo "$COMMITS" | while IFS= read -r commit
           do
-            if [[ ! $commit =~ PNGW-[0-9]+ ]]; then
+            echo "Checking: $commit"
+      
+            if [[ ! "$commit" =~ PNGW-[0-9]+ ]]; then
               echo "Commit message must contain PNGW-123"
               exit 1
             fi
