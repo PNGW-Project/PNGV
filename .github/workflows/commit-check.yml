@@ -20,7 +20,10 @@ jobs:
             echo "Checking: $commit"
       
             if [[ ! "$commit" =~ PNGW-[0-9]+ ]]; then
-              echo "Commit message must contain PNGW-123"
-              exit 1
-            fi
+              if [[ ! "$commit" =~ PNGW-[0-9]+ ]]; then
+                echo "❌ Error: Invalid commit message format."
+                echo "👉 Commit: '$commit'"
+                echo "💡 Message must contain a task ID like PNGW-123"
+                exit 1
+              fi
           done
