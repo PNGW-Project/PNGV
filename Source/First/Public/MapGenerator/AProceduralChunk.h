@@ -3,7 +3,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "ProceduralMeshComponent.h"
-#include "ProceduralChunk.generated.h"
+
+// Ensure the generated header file is included correctly
+#include "AProceduralChunk.generated.h"
 
 /*
  Отвечает за:
@@ -11,8 +13,11 @@
 *Построение вершин через noise
 *Создание ProceduralMesh 
 */
+UCLASS()
 class FIRST_API AProceduralChunk : public AActor
 {
+	GENERATED_BODY()
+
 public:
 	AProceduralChunk();
 	~AProceduralChunk();
