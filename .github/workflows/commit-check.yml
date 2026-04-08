@@ -9,14 +9,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # <--- КРИТИЧНО: скачивает всю историю, чтобы git log работал
 
       - name: Validate commits
         run: |
           git fetch origin main
+          
+          # Получаем список коммитов, исключая мержи
           COMMITS=$(git log origin/main..HEAD --no-merges --pretty=format:"%s")
-      
+          
+          # Если список пуст (например, в PR только мерж-коммиты), просто выходим
+          if [ -z "$COMMITS" ]; then
+            echo "No new commits to validate."
+            exit 0
+          fi
+          
+          # Читаем построчно
           echo "$COMMITS" | while IFS= read -r commit
           do
+            # Пропускаем пустые строки
+            [ -z "$commit" ] && continue
+            
+            # Пропускаем системные сообщения GitHub о мерже (на всякий случай)
+            if [[ "$commit" =~ ^Merge.* ]]; then
+              continue
+            fi
+
             echo "Checking: $commit"
       
             if [[ ! "$commit" =~ PNGW-[0-9]+ ]]; then
