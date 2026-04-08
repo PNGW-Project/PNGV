@@ -13,7 +13,7 @@ jobs:
       - name: Validate commits
         run: |
           git fetch origin main
-          COMMITS=$(git log origin/main..HEAD --pretty=format:"%s")
+          COMMITS=$(git log origin/main..HEAD --no-merges --pretty=format:"%s")
       
           echo "$COMMITS" | while IFS= read -r commit
           do
